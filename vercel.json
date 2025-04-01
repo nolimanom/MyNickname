@@ -2,6 +2,7 @@
   "version": 2,
   "routes": [
     { "handle": "filesystem" },
+    { "src": "/create", "dest": "/pages/create.html" },
     { "src": "/(.*)", "dest": "/pages/index.html" }
   ]
 }
