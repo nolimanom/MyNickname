@@ -3,7 +3,7 @@
     {
       "nickname": "nolimanom",
       "past_nicknames": ["nolimanom1", "nolimanom2"],
-      "badges": ["Owner", "Developer", "Verified", "Beta-user"],
+      "badges": ["Owner", "Developer", "Verified", "Beta_user", "Bug_hunter"],
       "reg_date": "2025-02-04"
     }
   ]
