@@ -1,8 +1,38 @@
 {
   "version": 2,
+  "buildCommand": null,
+  "devCommand": null,
+  "installCommand": null,
   "routes": [
     { "handle": "filesystem" },
-    { "src": "/create", "dest": "/pages/create.html" },
-    { "src": "/(.*)", "dest": "/pages/index.html" }
+    { "src": "/", "dest": "/Pages/index.html" },
+    { "src": "/create", "dest": "/Pages/create.html" },
+    { "src": "/profile-viewer.js", "dest": "/Pages/profile.js" },
+    { "src": "/Users/(.*)", "dest": "/Users/$1" }
+  ],
+  "headers": [
+    {
+      "source": "/Users/(.*).json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=60, stale-while-revalidate=600"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/Pages/profile.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=3600, stale-while-revalidate=86400"
+        }
+      ]
+    }
   ]
 }
+
