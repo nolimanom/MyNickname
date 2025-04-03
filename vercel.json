@@ -7,7 +7,7 @@
     { "handle": "filesystem" },
     { "src": "/", "dest": "/Pages/index.html" },
     { "src": "/create", "dest": "/Pages/create.html" },
-    { "src": "/profile.js", "dest": "/Pages/profile.js" },
+    { "src": "/profile", "dest": "/Pages/profile.js" },
     { "src": "/Users/(.*)", "dest": "/Users/$1" }
   ],
   "headers": [
