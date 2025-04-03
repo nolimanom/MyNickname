@@ -8,17 +8,26 @@
   ],
   "headers": [
     {
-      "headers": {
-        "Cache-Control": "s-maxage=60, stale-while-revalidate=600",
-        "Access-Control-Allow-Origin": "*"
-      },
-      "source": "/Users/(.*).json"
+      "source": "/Users/(.*).json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=60, stale-while-revalidate=600"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
     },
     {
-      "headers": {
-        "Cache-Control": "s-maxage=3600, stale-while-revalidate=86400"
-      },
-      "source": "/profile.js"
+      "source": "/profile.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=3600, stale-while-revalidate=86400"
+        }
+      ]
     }
   ]
 }
