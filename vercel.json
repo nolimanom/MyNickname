@@ -1,38 +1,24 @@
 {
   "version": 2,
-  "buildCommand": null,
-  "devCommand": null,
-  "installCommand": null,
   "routes": [
-    { "handle": "filesystem" },
-    { "src": "/", "dest": "/Pages/index.html" },
+    { "src": "/profile.js", "dest": "/Pages/profile.js" },
+    { "src": "/Users/(.*)", "dest": "/Users/$1" },
     { "src": "/create", "dest": "/Pages/create.html" },
-    { "src": "/profile", "dest": "/Pages/profile.js" },
-    { "src": "/Users/(.*)", "dest": "/Users/$1" }
+    { "src": "/(.*)", "dest": "/Pages/Index.html" }
   ],
   "headers": [
     {
-      "source": "/Users/(.*).json",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "s-maxage=60, stale-while-revalidate=600"
-        },
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        }
-      ]
+      "src": "/Users/(.*).json",
+      "headers": {
+        "Cache-Control": "s-maxage=60, stale-while-revalidate=600",
+        "Access-Control-Allow-Origin": "*"
+      }
     },
     {
-      "source": "/Pages/profile.js",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "s-maxage=3600, stale-while-revalidate=86400"
-        }
-      ]
+      "src": "/profile.js",
+      "headers": {
+        "Cache-Control": "s-maxage=3600, stale-while-revalidate=86400"
+      }
     }
   ]
 }
-
