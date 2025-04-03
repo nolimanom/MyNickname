@@ -8,17 +8,17 @@
   ],
   "headers": [
     {
-      "src": "/Users/(.*).json",
       "headers": {
         "Cache-Control": "s-maxage=60, stale-while-revalidate=600",
         "Access-Control-Allow-Origin": "*"
-      }
+      },
+      "source": "/Users/(.*).json"
     },
     {
-      "src": "/profile.js",
       "headers": {
         "Cache-Control": "s-maxage=3600, stale-while-revalidate=86400"
-      }
+      },
+      "source": "/profile.js"
     }
   ]
 }
