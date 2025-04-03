@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "routes": [
-    { "src": "/profile.js", "dest": "/Pages/profile.js" },
-    { "src": "/Users/(.*)", "dest": "/Users/$1" },
-    { "src": "/create", "dest": "/Pages/create.html" },
-    { "src": "/(.*)", "dest": "/Pages/Index.html" }
+  "rewrites": [
+    { "source": "/profile.js", "destination": "/Pages/profile.js" },
+    { "source": "/Users/(.*)", "destination": "/Users/$1" },
+    { "source": "/create", "destination": "/Pages/create.html" },
+    { "source": "/(.*)", "destination": "/Pages/Index.html" }
   ],
   "headers": [
     {
