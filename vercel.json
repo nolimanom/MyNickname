@@ -10,9 +10,9 @@
       "use": "@vercel/static"
     },
     {
-      "src": "Users/(.*)",
+      "src": "Users/*.json",
       "use": "@vercel/static"
-    }
+    },
   ],
   "routes": [
     {
