@@ -1,25 +1,37 @@
-// Main profile viewer script
+// Profile Viewer - All functionality in a single file
 ;(() => {
-  // DOM Elements
-  let loadingScreen = null
-  let profileContainer = null
-  let errorContainer = null
+  // Initialize when DOM is loaded
+  document.addEventListener("DOMContentLoaded", init)
 
-  // Initialize the application
+  // Main initialization function
   function init() {
-    // Create DOM elements
-    createElements()
-
     // Get username from URL hash
     const hash = window.location.hash.substring(1)
 
     if (!hash) {
-      showError("No username provided in URL hash")
+      // If no hash is provided, show error message
+      document.body.innerHTML = `
+        <div style="
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          color: #e74c3c;
+          text-align: center;
+          max-width: 400px;
+          margin: 100px auto;
+        ">
+          <p>No username provided in URL hash</p>
+        </div>
+      `
       return
     }
 
-    // Show loading screen
-    showLoading()
+    // Add CSS styles
+    addStyles()
+
+    // Create and show loading screen
+    createLoadingScreen()
 
     // Fetch user data after 5 seconds
     setTimeout(() => {
@@ -27,15 +39,182 @@
     }, 5000)
   }
 
-  // Create DOM elements
-  function createElements() {
-    // Main container
+  // Add CSS styles to the document
+  function addStyles() {
+    const styleElement = document.createElement("style")
+    styleElement.textContent = `
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        background-color: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+      }
+      
+      .profile-container {
+        width: 100%;
+        max-width: 400px;
+      }
+      
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        transition: opacity 0.5s ease;
+      }
+      
+      .loading-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      .profile-card-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+      
+      .profile-card {
+        width: 100%;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .profile-avatar {
+        margin-top: 20px;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      .social-icons {
+        display: flex;
+        gap: 10px;
+        margin: 15px 0;
+      }
+      
+      .social-icons a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        color: white;
+        transition: opacity 0.2s;
+      }
+      
+      .social-icons a:hover {
+        opacity: 0.9;
+      }
+      
+      .discord-icon {
+        background-color: #5865F2;
+      }
+      
+      .telegram-icon {
+        background-color: #0088cc;
+      }
+      
+      .profile-info {
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+      }
+      
+      .profile-info h2 {
+        font-size: 24px;
+        margin-bottom: 8px;
+      }
+      
+      .profile-info p {
+        color: #666;
+      }
+      
+      .profile-info h3 {
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+      
+      .profile-info ul {
+        list-style: none;
+      }
+      
+      .past-nickname {
+        text-decoration: line-through;
+        color: #999;
+        margin-bottom: 5px;
+      }
+      
+      .error-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        color: #e74c3c;
+        text-align: center;
+      }
+    `
+    document.head.appendChild(styleElement)
+  }
+
+  // Create loading screen
+  function createLoadingScreen() {
+    // Create main container
     const mainContainer = document.createElement("div")
     mainContainer.className = "profile-container"
     document.body.appendChild(mainContainer)
 
-    // Loading screen
-    loadingScreen = document.createElement("div")
+    // Create loading screen
+    const loadingScreen = document.createElement("div")
+    loadingScreen.id = "loading-screen"
     loadingScreen.className = "loading-screen"
     loadingScreen.innerHTML = `
       <div class="loading-content">
@@ -45,28 +224,24 @@
     `
     document.body.appendChild(loadingScreen)
 
-    // Profile container
-    profileContainer = document.createElement("div")
+    // Create profile container (hidden initially)
+    const profileContainer = document.createElement("div")
+    profileContainer.id = "profile-container"
     profileContainer.className = "profile-card-container"
     profileContainer.style.display = "none"
     mainContainer.appendChild(profileContainer)
 
-    // Error container
-    errorContainer = document.createElement("div")
+    // Create error container (hidden initially)
+    const errorContainer = document.createElement("div")
+    errorContainer.id = "error-container"
     errorContainer.className = "error-container"
     errorContainer.style.display = "none"
     mainContainer.appendChild(errorContainer)
   }
 
-  // Show loading screen
-  function showLoading() {
-    loadingScreen.style.display = "flex"
-    profileContainer.style.display = "none"
-    errorContainer.style.display = "none"
-  }
-
   // Hide loading screen with fade effect
   function hideLoading() {
+    const loadingScreen = document.getElementById("loading-screen")
     loadingScreen.style.opacity = "0"
     setTimeout(() => {
       loadingScreen.style.display = "none"
@@ -75,6 +250,9 @@
 
   // Show error message
   function showError(message) {
+    const errorContainer = document.getElementById("error-container")
+    const profileContainer = document.getElementById("profile-container")
+
     errorContainer.innerHTML = `<p>${message}</p>`
     errorContainer.style.display = "block"
     profileContainer.style.display = "none"
@@ -100,6 +278,8 @@
 
   // Render user profile
   function renderProfile(user) {
+    const profileContainer = document.getElementById("profile-container")
+
     // Create profile HTML
     const profileHTML = `
       <div class="profile-card">
@@ -174,8 +354,5 @@
       showingPastNicknames = !showingPastNicknames
     })
   }
-
-  // Initialize when DOM is loaded
-  document.addEventListener("DOMContentLoaded", init)
 })()
 
