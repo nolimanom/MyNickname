@@ -12,7 +12,7 @@
     {
       "src": "Users/*.json",
       "use": "@vercel/static"
-    },
+    }
   ],
   "routes": [
     {
