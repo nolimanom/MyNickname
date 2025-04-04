@@ -4,47 +4,32 @@
     {
       "src": "Pages/profile.js",
       "use": "@vercel/node"
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/profile",
-      "destination": "/Pages/profile.js"
     },
     {
-      "source": "/create",
-      "destination": "/Pages/create.html"
+      "src": "Pages/*.html",
+      "use": "@vercel/static"
     },
     {
-      "source": "/",
-      "destination": "/Pages/index.html"
+      "src": "Users/(.*)",
+      "use": "@vercel/static"
     }
   ],
-  "headers": [
+  "routes": [
     {
-      "source": "/Users/(.*)\\.json",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "*"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "s-maxage=60, stale-while-revalidate=600"
-        },
-        {
-          "key": "Content-Type",
-          "value": "application/json"
-        }
-      ]
+      "src": "/profile",
+      "dest": "/Pages/profile.js"
+    },
+    {
+      "src": "/create",
+      "dest": "/Pages/create.html"
+    },
+    {
+      "src": "/Users/(.*)",
+      "dest": "/Users/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/Pages/index.html"
     }
   ]
 }
