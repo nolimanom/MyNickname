@@ -256,7 +256,7 @@ module.exports = (req, res) => {
     }
     
     #past-nicknames-container.expanded {
-      max-height: 500px; /* Adjust this value based on your content needs */
+      max-height: 500px;
     }
     
     @keyframes typing {
@@ -380,13 +380,17 @@ module.exports = (req, res) => {
         if (platform === 'discord') {
           iconHtml = \`
             <span class="past-nickname-icon" style="background-color: #5865F2;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0531 1.5076 4.0414 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.8732.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6061 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.5468-.3722-9.0694-3.7882-13.6922a.0669.0669 0 00-.0322-.0281zm-6.6836 13.8098c-1.1864 0-2.1504-.911-2.1504-2.035s.966-2.038 2.1504-2.038c1.1821 0 2.1371.917 2.1371 2.038s-.9549 2.035-2.1371 2.035zm5.5898 0c-1.1835 0-2.1495-.911-2.1495-2.035s.966-2.038 2.1495-2.038c1.1844 0 2.1371.917 2.1371 2.038s-.9527 2.035-2.1371 2.035z"/>
+              </svg>
             </span>
           \`;
         } else if (platform === 'telegram') {
           iconHtml = \`
             <span class="past-nickname-icon" style="background-color: #0088cc;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256" fill="currentColor">
+                <path d="M228.88 26.19a9 9 0 00-9.16-1.57L17.06 103.93a14 14 0 002.1 27.14l59.06 21.73 24.71-25.65c2.73-2.83 7.13-2.93 9.86-.22s2.63 7.11-.1 9.94l-24.72 25.65 33.53 35.94a14 14 0 0013.42 4.31c.24-.05.47-.11.71-.17l101.53-37.37a14 14 0 009-18.63L232.22 35a9 9 0 00-3.34-8.81zM215 113.57l-89.35 32.88-28.88-30.95L215 45.89z"/>
+              </svg>
             </span>
           \`;
         }
@@ -409,13 +413,17 @@ module.exports = (req, res) => {
             <div class="social-icons">
               \${user.discord ? \`
                 <a href="https://discord.com/users/\${user.discord}" target="_blank" rel="noopener noreferrer" class="discord-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0531 1.5076 4.0414 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.8732.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6061 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.5468-.3722-9.0694-3.7882-13.6922a.0669.0669 0 00-.0322-.0281zm-6.6836 13.8098c-1.1864 0-2.1504-.911-2.1504-2.035s.966-2.038 2.1504-2.038c1.1821 0 2.1371.917 2.1371 2.038s-.9549 2.035-2.1371 2.035zm5.5898 0c-1.1835 0-2.1495-.911-2.1495-2.035s.966-2.038 2.1495-2.038c1.1844 0 2.1371.917 2.1371 2.038s-.9527 2.035-2.1371 2.035z"/>
+                  </svg>
                 </a>
               \` : ''}
               
               \${user.telegram ? \`
                 <a href="https://t.me/\${user.telegram}" target="_blank" rel="noopener noreferrer" class="telegram-icon">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" fill="currentColor">
+                    <path d="M228.88 26.19a9 9 0 00-9.16-1.57L17.06 103.93a14 14 0 002.1 27.14l59.06 21.73 24.71-25.65c2.73-2.83 7.13-2.93 9.86-.22s2.63 7.11-.1 9.94l-24.72 25.65 33.53 35.94a14 14 0 0013.42 4.31c.24-.05.47-.11.71-.17l101.53-37.37a14 14 0 009-18.63L232.22 35a9 9 0 00-3.34-8.81zM215 113.57l-89.35 32.88-28.88-30.95L215 45.89z"/>
+                  </svg>
                 </a>
               \` : ''}
             </div>
@@ -466,15 +474,13 @@ module.exports = (req, res) => {
         
         profileInfo.addEventListener('click', () => {
           if (!showingPastNicknames) {
-            // Show past nicknames with slide down
             currentNicknameElements.forEach(el => el.style.display = 'none');
             pastNicknamesContainer.classList.add('expanded');
           } else {
-            // Hide past nicknames with slide up
             pastNicknamesContainer.classList.remove('expanded');
             setTimeout(() => {
               currentNicknameElements.forEach(el => el.style.display = 'block');
-            }, 500); // Match transition duration
+            }, 500);
           }
           showingPastNicknames = !showingPastNicknames;
         });
