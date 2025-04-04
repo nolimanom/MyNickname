@@ -1,10 +1,8 @@
 // This file will be executed in a Node.js environment on Vercel
 module.exports = (req, res) => {
-  // Get the username from the URL hash or query parameter
   const url = new URL(req.url, `http://${req.headers.host}`)
   const username = url.hash ? url.hash.substring(1) : url.searchParams.get("user")
 
-  // Send the HTML with embedded JavaScript
   res.setHeader("Content-Type", "text/html")
   res.end(`
 <!DOCTYPE html>
@@ -250,6 +248,17 @@ module.exports = (req, res) => {
       animation-delay: 2s;
     }
     
+    #past-nicknames-container {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-in-out;
+      width: 100%;
+    }
+    
+    #past-nicknames-container.expanded {
+      max-height: 500px; /* Adjust this value based on your content needs */
+    }
+    
     @keyframes typing {
       from { width: 0 }
       to { width: 100% }
@@ -301,11 +310,9 @@ module.exports = (req, res) => {
       document.addEventListener('DOMContentLoaded', init);
 
       function init() {
-        // Theme handling
         const themeToggle = document.getElementById('theme-toggle');
         const html = document.documentElement;
         
-        // Check for saved theme preference
         const savedTheme = localStorage.getItem('theme') || 'light';
         html.setAttribute('data-theme', savedTheme);
         
@@ -316,7 +323,6 @@ module.exports = (req, res) => {
           localStorage.setItem('theme', newTheme);
         });
 
-        // Get username from URL
         const hash = window.location.hash.substring(1);
         const urlParams = new URLSearchParams(window.location.search);
         const queryUser = urlParams.get('user');
@@ -418,7 +424,7 @@ module.exports = (req, res) => {
               <h2>\${user.nickname}</h2>
               <p>\${user.bio || "Click to see past nicknames"}</p>
               
-              <div id="past-nicknames-container" class="hidden">
+              <div id="past-nicknames-container">
                 <h3>Past Nicknames:</h3>
                 <ul id="past-nicknames-list"></ul>
               </div>
@@ -460,11 +466,15 @@ module.exports = (req, res) => {
         
         profileInfo.addEventListener('click', () => {
           if (!showingPastNicknames) {
+            // Show past nicknames with slide down
             currentNicknameElements.forEach(el => el.style.display = 'none');
-            pastNicknamesContainer.classList.remove('hidden');
+            pastNicknamesContainer.classList.add('expanded');
           } else {
-            currentNicknameElements.forEach(el => el.style.display = 'block');
-            pastNicknamesContainer.classList.add('hidden');
+            // Hide past nicknames with slide up
+            pastNicknamesContainer.classList.remove('expanded');
+            setTimeout(() => {
+              currentNicknameElements.forEach(el => el.style.display = 'block');
+            }, 500); // Match transition duration
           }
           showingPastNicknames = !showingPastNicknames;
         });
