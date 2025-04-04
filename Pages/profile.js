@@ -407,7 +407,7 @@ module.exports = (req, res) => {
         const profileHTML = \`
           <div class="profile-card">
             <div class="profile-avatar">
-              <img src="\${user.avatar || '/placeholder.svg?height=96&width=96'}" alt="\${user.nickname}" />
+              <img src="\${user.avatar || '/Pages/placeholder.svg?height=96&width=96'}" alt="\${user.nickname}" />
             </div>
             
             <div class="social-icons">
