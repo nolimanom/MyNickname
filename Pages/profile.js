@@ -167,13 +167,28 @@ module.exports = (req, res) => {
       overflow: hidden;
       border-right: 2px solid transparent;
       width: 0;
-      animation: typing 1s steps(30, end) forwards;
+      animation: typing 2s ease-in-out forwards;
     }
     
     .past-nickname {
-      color: #999;
-      margin-bottom: 5px;
+      color: #666;
+      margin-bottom: 10px;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .past-nickname-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      color: white;
+      flex-shrink: 0;
     }
     
     .strikethrough {
@@ -188,8 +203,8 @@ module.exports = (req, res) => {
       width: 0;
       height: 1px;
       background-color: #999;
-      animation: strikethrough 0.5s ease-in-out forwards;
-      animation-delay: 1s;
+      animation: strikethrough 1.5s ease-in-out forwards;
+      animation-delay: 2s;
     }
     
     @keyframes typing {
@@ -211,6 +226,10 @@ module.exports = (req, res) => {
       text-align: center;
       max-width: 400px;
       margin: 100px auto;
+    }
+    
+    .hidden {
+      display: none;
     }
   </style>
 </head>
@@ -288,6 +307,36 @@ module.exports = (req, res) => {
         }
       }
       
+      // Get platform icon based on nickname
+      function getPlatformIcon(nickname) {
+        const platformMatch = nickname.match(/\\[(.*?)\\]/);
+        if (!platformMatch) return null;
+        
+        const platform = platformMatch[1].toLowerCase();
+        let iconHtml = '';
+        
+        if (platform === 'discord') {
+          iconHtml = \`
+            <span class="past-nickname-icon" style="background-color: #5865F2;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+            </span>
+          \`;
+        } else if (platform === 'telegram') {
+          iconHtml = \`
+            <span class="past-nickname-icon" style="background-color: #0088cc;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
+            </span>
+          \`;
+        }
+        
+        return iconHtml;
+      }
+      
+      // Clean nickname by removing platform tag
+      function cleanNickname(nickname) {
+        return nickname.replace(/\\[.*?\\]/, '');
+      }
+      
       // Render user profile
       function renderProfile(user) {
         const profileContainer = document.getElementById('profile-container');
@@ -314,7 +363,13 @@ module.exports = (req, res) => {
             </div>
             
             <div class="profile-info" id="profile-info">
-              <!-- Past nicknames will be shown here by default -->
+              <h2>\${user.nickname}</h2>
+              <p>\${user.bio || "Click to see past nicknames"}</p>
+              
+              <div id="past-nicknames-container" class="hidden">
+                <h3>Past Nicknames:</h3>
+                <ul id="past-nicknames-list"></ul>
+              </div>
             </div>
           </div>
         \`;
@@ -326,52 +381,50 @@ module.exports = (req, res) => {
         // Hide loading screen
         hideLoading();
         
-        // Get profile info element
+        // Prepare past nicknames list but keep it hidden initially
+        const pastNicknamesList = document.getElementById('past-nicknames-list');
+        const pastNicknamesContainer = document.getElementById('past-nicknames-container');
+        
+        if (user.past_nicknames && user.past_nicknames.length > 0) {
+          user.past_nicknames.forEach((nick, index) => {
+            // Add a small delay for each nickname to create a cascade effect
+            const delay = index * 1.0;
+            const platformIcon = getPlatformIcon(nick);
+            const cleanedNick = cleanNickname(nick);
+            
+            const li = document.createElement('li');
+            li.className = 'past-nickname';
+            li.style.animationDelay = \`\${delay}s\`;
+            
+            li.innerHTML = \`
+              \${platformIcon || ''}
+              <span class="typing-text strikethrough" style="animation-delay: \${delay}s;">\${cleanedNick}</span>
+            \`;
+            
+            pastNicknamesList.appendChild(li);
+          });
+        } else {
+          pastNicknamesList.innerHTML = '<li>No past nicknames</li>';
+        }
+        
+        // Add click event to toggle between current nickname and past nicknames
+        let showingPastNicknames = false;
         const profileInfo = document.getElementById('profile-info');
-        
-        // Show past nicknames by default with animation
-        showPastNicknames(profileInfo, user);
-        
-        // Add click event to toggle between past nicknames and current nickname
-        let showingPastNicknames = true;
+        const currentNicknameElements = Array.from(profileInfo.querySelectorAll('h2, p')).filter(el => !el.closest('#past-nicknames-container'));
         
         profileInfo.addEventListener('click', () => {
-          if (showingPastNicknames) {
-            // Show current nickname
-            profileInfo.innerHTML = \`
-              <h2>\${user.nickname}</h2>
-              <p>\${user.bio || "Click to see past nicknames"}</p>
-            \`;
+          if (!showingPastNicknames) {
+            // Show past nicknames
+            currentNicknameElements.forEach(el => el.style.display = 'none');
+            pastNicknamesContainer.classList.remove('hidden');
           } else {
-            // Show past nicknames with animation
-            showPastNicknames(profileInfo, user);
+            // Show current nickname
+            currentNicknameElements.forEach(el => el.style.display = 'block');
+            pastNicknamesContainer.classList.add('hidden');
           }
           
           showingPastNicknames = !showingPastNicknames;
         });
-      }
-      
-      // Function to show past nicknames with typing and strikethrough animation
-      function showPastNicknames(element, user) {
-        let pastNicknamesHTML = '<h3>Past Nicknames:</h3>';
-        
-        if (user.past_nicknames && user.past_nicknames.length > 0) {
-          pastNicknamesHTML += '<ul>';
-          user.past_nicknames.forEach((nick, index) => {
-            // Add a small delay for each nickname to create a cascade effect
-            const delay = index * 0.5;
-            pastNicknamesHTML += \`
-              <li class="past-nickname" style="animation-delay: \${delay}s;">
-                <span class="typing-text strikethrough" style="animation-delay: \${delay}s;">\${nick}</span>
-              </li>
-            \`;
-          });
-          pastNicknamesHTML += '</ul>';
-        } else {
-          pastNicknamesHTML += '<p>No past nicknames</p>';
-        }
-        
-        element.innerHTML = pastNicknamesHTML;
       }
     })();
   </script>
