@@ -158,10 +158,45 @@ module.exports = (req, res) => {
       list-style: none;
     }
     
+    .typing-text {
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid transparent;
+      width: 0;
+      animation: typing 1s steps(30, end) forwards;
+    }
+    
     .past-nickname {
-      text-decoration: line-through;
       color: #999;
       margin-bottom: 5px;
+      position: relative;
+    }
+    
+    .strikethrough {
+      position: relative;
+    }
+    
+    .strikethrough::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 0;
+      height: 1px;
+      background-color: #999;
+      animation: strikethrough 0.5s ease-in-out forwards;
+      animation-delay: 1s;
+    }
+    
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    
+    @keyframes strikethrough {
+      from { width: 0 }
+      to { width: 100% }
     }
     
     .error-container {
@@ -276,8 +311,7 @@ module.exports = (req, res) => {
             </div>
             
             <div class="profile-info" id="profile-info">
-              <h2>\${user.nickname}</h2>
-              <p>\${user.bio || "Click to see past nicknames"}</p>
+              <!-- Past nicknames will be shown here by default -->
             </div>
           </div>
         \`;
@@ -289,36 +323,52 @@ module.exports = (req, res) => {
         // Hide loading screen
         hideLoading();
         
-        // Add click event to toggle past nicknames
+        // Get profile info element
         const profileInfo = document.getElementById('profile-info');
-        let showingPastNicknames = false;
+        
+        // Show past nicknames by default with animation
+        showPastNicknames(profileInfo, user);
+        
+        // Add click event to toggle between past nicknames and current nickname
+        let showingPastNicknames = true;
         
         profileInfo.addEventListener('click', () => {
-          if (!showingPastNicknames) {
-            // Show past nicknames
-            let pastNicknamesHTML = '<h3>Past Nicknames:</h3>';
-            
-            if (user.past_nicknames && user.past_nicknames.length > 0) {
-              pastNicknamesHTML += '<ul>';
-              user.past_nicknames.forEach(nick => {
-                pastNicknamesHTML += \`<li class="past-nickname">\${nick}</li>\`;
-              });
-              pastNicknamesHTML += '</ul>';
-            } else {
-              pastNicknamesHTML += '<p>No past nicknames</p>';
-            }
-            
-            profileInfo.innerHTML = pastNicknamesHTML;
-          } else {
+          if (showingPastNicknames) {
             // Show current nickname
             profileInfo.innerHTML = \`
               <h2>\${user.nickname}</h2>
               <p>\${user.bio || "Click to see past nicknames"}</p>
             \`;
+          } else {
+            // Show past nicknames with animation
+            showPastNicknames(profileInfo, user);
           }
           
           showingPastNicknames = !showingPastNicknames;
         });
+      }
+      
+      // Function to show past nicknames with typing and strikethrough animation
+      function showPastNicknames(element, user) {
+        let pastNicknamesHTML = '<h3>Past Nicknames:</h3>';
+        
+        if (user.past_nicknames && user.past_nicknames.length > 0) {
+          pastNicknamesHTML += '<ul>';
+          user.past_nicknames.forEach((nick, index) => {
+            // Add a small delay for each nickname to create a cascade effect
+            const delay = index * 0.5;
+            pastNicknamesHTML += \`
+              <li class="past-nickname" style="animation-delay: \${delay}s;">
+                <span class="typing-text strikethrough" style="animation-delay: \${delay}s;">\${nick}</span>
+              </li>
+            \`;
+          });
+          pastNicknamesHTML += '</ul>';
+        } else {
+          pastNicknamesHTML += '<p>No past nicknames</p>';
+        }
+        
+        element.innerHTML = pastNicknamesHTML;
       }
     })();
   </script>
