@@ -10,6 +10,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "Pages/placeholder.svg",
+      "use": "@vercel/static"
+    },
+    {
       "src": "Users/*.json",
       "use": "@vercel/static"
     }
@@ -18,6 +22,10 @@
     {
       "src": "/profile",
       "dest": "/Pages/profile.js"
+    },
+    {
+      "src": "/Pages/placeholder.svg",
+      "dest": "/Pages/placeholder.svg"
     },
     {
       "src": "/create",
