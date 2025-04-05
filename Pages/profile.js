@@ -184,9 +184,31 @@ module.exports = (req, res) => {
       color: var(--text-primary);
     }
     
+    .nickname-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    
+    .badge {
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .badge img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    
     .profile-info h2 {
       font-size: 24px;
-      margin-bottom: 8px;
     }
     
     .profile-info p {
@@ -309,6 +331,12 @@ module.exports = (req, res) => {
     (function() {
       document.addEventListener('DOMContentLoaded', init);
 
+      const badgeIcons = {
+        "Owner": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNyb3duLWljb24gbHVjaWRlLWNyb3duIj48cGF0aCBkPSJNMTEuNTYyIDMuMjY2YS41LjUgMCAwIDEgLjg3NiAwTDE1LjM5IDguODdhMSAxIDAgMCAwIDEuNTE2LjI5NEwyMS4xODMgNS41YS41LjUgMCAwIDEgLjc5OC41MTlsLTIuODM0IDEwLjI0NmExIDEgMCAwIDEtLjk1Ni43MzRINS44MWExIDEgMCAwIDEtLjk1Ny0uNzM0TDIuMDIgNi4wMmEuNS41IDAgMCAxIC43OTgtLjUxOWw0LjI3NiAzLjY2NGExIDEgMCAwIDAgMS41MTYtLjI5NHoiLz48cGF0aCBkPSJNNSAyMWgxNCIvPjwvc3ZnPg==",
+        "Developer": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNoZXZyb25zLWxlZnQtcmlnaHQtaWNvbiBsdWNpZGUtY2hldnJvbnMtbGVmdC1yaWdodCI+PHBhdGggZD0ibTkgNy01IDUgNSA1Ii8+PHBhdGggZD0ibTE1IDcgNSA1LTUgNSIvPjwvc3ZnPg==",
+        "Verified": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWJhZGdlLWNoZWNrLWljb24gbHVjaWRlLWJhZGdlLWNoZWNrIj48cGF0aCBkPSJNMy44NSA4LjYyYTQgNCAwIDAgMSA0Ljc4LTQuNzcgNCA0IDAgMCAxIDYuNzQgMCA0IDQgMCAwIDEgNC43OCA0Ljc4IDQgNCAwIDAgMSAwIDYuNzQgNCA0IDAgMCAxLTQuNzcgNC43OCA0IDQgMCAwIDEtNi43NSAwIDQgNCAwIDAgMS00Ljc4LTQuNzcgNCA0IDAgMCAxIDAtNi43NloiLz48cGF0aCBkPSJtOSAxMiAyIDIgNC00Ii8+PC9zdmc+"
+      };
+
       function init() {
         const themeToggle = document.getElementById('theme-toggle');
         const html = document.documentElement;
@@ -404,10 +432,18 @@ module.exports = (req, res) => {
       function renderProfile(user) {
         const profileContainer = document.getElementById('profile-container');
         
+        // Generate badges HTML
+        const badgesHTML = (user.badges || []).map(badge => {
+          if (badgeIcons[badge]) {
+            return \`<span class="badge" title="\${badge}"><img src="\${badgeIcons[badge]}" alt="\${badge} badge"></span>\`;
+          }
+          return '';
+        }).join('');
+        
         const profileHTML = \`
           <div class="profile-card">
             <div class="profile-avatar">
-              <img src="\${user.avatar || '/Pages/placeholder.svg?height=96&width=96'}" alt="\${user.nickname}" />
+              <img src="\${user.avatar || '/placeholder.svg?height=96&width=96'}" alt="\${user.nickname}" />
             </div>
             
             <div class="social-icons">
@@ -429,7 +465,10 @@ module.exports = (req, res) => {
             </div>
             
             <div class="profile-info" id="profile-info">
-              <h2>\${user.nickname}</h2>
+              <div class="nickname-container">
+                <h2>\${user.nickname}</h2>
+                \${badgesHTML}
+              </div>
               <p>\${user.bio || "Click to see past nicknames"}</p>
               
               <div id="past-nicknames-container">
