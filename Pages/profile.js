@@ -337,7 +337,7 @@ module.exports = (req, res) => {
           color: "#FFD700" // Gold
         },
         "Developer": {
-          icon: "data:image/svg+xml;base64,PHN2ZyB4b Asc смущённо улыбнувшись4eLXdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNoZXZyb25zLWxlZnQtcmlnaHQtaWNvbiBsdWNpZGUtY2hldnJvbnMtbGVmdC1yaWdodCI+PHBhdGggZD0ibTkgNy01IDUgNSA1Ii8+PHBhdGggZD0ibTE1IDcgNSA1LTUgNSIvPjwvc3ZnPg==",
+          icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNoZXZyb25zLWxlZnQtcmlnaHQtaWNvbiBsdWNpZGUtY2hldnJvbnMtbGVmdC1yaWdodCI+PHBhdGggZD0ibTkgNy01IDUgNSA1Ii8+PHBhdGggZD0ibTE1IDcgNSA1LTUgNSIvPjwvc3ZnPg==",
           color: "#00CED1" // Turquoise
         },
         "Verified": {
@@ -477,10 +477,10 @@ module.exports = (req, res) => {
                 \${badgesHTML}
               </div>
               <h2>\${user.nickname}</h2>
-              <p>\${user.bio || "Click to see past nicknames"}</p>
+              <p>\${user.bio || "Нажмите сюда что бы увидеть прошлые юзернеймы"}</p>
               
               <div id="past-nicknames-container">
-                <h3>Past Nicknames:</h3>
+                <h3>Прошлые юзернеймы</h3>
                 <ul id="past-nicknames-list"></ul>
               </div>
             </div>
@@ -512,7 +512,7 @@ module.exports = (req, res) => {
             pastNicknamesList.appendChild(li);
           });
         } else {
-          pastNicknamesList.innerHTML = '<li>No past nicknames</li>';
+          pastNicknamesList.innerHTML = '<li>Нету прошлых юзернеймов</li>';
         }
         
         let showingPastNicknames = false;
