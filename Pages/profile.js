@@ -184,9 +184,8 @@ module.exports = (req, res) => {
       color: var(--text-primary);
     }
     
-    .nickname-container {
+    .badges-container {
       display: flex;
-      align-items: center;
       justify-content: center;
       gap: 5px;
       flex-wrap: wrap;
@@ -209,6 +208,7 @@ module.exports = (req, res) => {
     
     .profile-info h2 {
       font-size: 24px;
+      margin-bottom: 8px;
     }
     
     .profile-info p {
@@ -332,9 +332,18 @@ module.exports = (req, res) => {
       document.addEventListener('DOMContentLoaded', init);
 
       const badgeIcons = {
-        "Owner": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNyb3duLWljb24gbHVjaWRlLWNyb3duIj48cGF0aCBkPSJNMTEuNTYyIDMuMjY2YS41LjUgMCAwIDEgLjg3NiAwTDE1LjM5IDguODdhMSAxIDAgMCAwIDEuNTE2LjI5NEwyMS4xODMgNS41YS41LjUgMCAwIDEgLjc5OC41MTlsLTIuODM0IDEwLjI0NmExIDEgMCAwIDEtLjk1Ni43MzRINS44MWExIDEgMCAwIDEtLjk1Ny0uNzM0TDIuMDIgNi4wMmEuNS41IDAgMCAxIC43OTgtLjUxOWw0LjI3NiAzLjY2NGExIDEgMCAwIDAgMS41MTYtLjI5NHoiLz48cGF0aCBkPSJNNSAyMWgxNCIvPjwvc3ZnPg==",
-        "Developer": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNoZXZyb25zLWxlZnQtcmlnaHQtaWNvbiBsdWNpZGUtY2hldnJvbnMtbGVmdC1yaWdodCI+PHBhdGggZD0ibTkgNy01IDUgNSA1Ii8+PHBhdGggZD0ibTE1IDcgNSA1LTUgNSIvPjwvc3ZnPg==",
-        "Verified": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWJhZGdlLWNoZWNrLWljb24gbHVjaWRlLWJhZGdlLWNoZWNrIj48cGF0aCBkPSJNMy44NSA4LjYyYTQgNCAwIDAgMSA0Ljc4LTQuNzcgNCA0IDAgMCAxIDYuNzQgMCA0IDQgMCAwIDEgNC43OCA0Ljc4IDQgNCAwIDAgMSAwIDYuNzQgNCA0IDAgMCAxLTQuNzcgNC43OCA0IDQgMCAwIDEtNi43NSAwIDQgNCAwIDAgMS00Ljc4LTQuNzcgNCA0IDAgMCAxIDAtNi43NloiLz48cGF0aCBkPSJtOSAxMiAyIDIgNC00Ii8+PC9zdmc+"
+        "Owner": {
+          icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNyb3duLWljb24gbHVjaWRlLWNyb3duIj48cGF0aCBkPSJNMTEuNTYyIDMuMjY2YS41LjUgMCAwIDEgLjg3NiAwTDE1LjM5IDguODdhMSAxIDAgMCAwIDEuNTE2LjI5NEwyMS4xODMgNS41YS41LjUgMCAwIDEgLjc5OC41MTlsLTIuODM0IDEwLjI0NmExIDEgMCAwIDEtLjk1Ni43MzRINS44MWExIDEgMCAwIDEtLjk1Ny0uNzM0TDIuMDIgNi4wMmEuNS41IDAgMCAxIC43OTgtLjUxOWw0LjI3NiAzLjY2NGExIDEgMCAwIDAgMS41MTYtLjI5NHoiLz48cGF0aCBkPSJNNSAyMWgxNCIvPjwvc3ZnPg==",
+          color: "#FFD700" // Gold
+        },
+        "Developer": {
+          icon: "data:image/svg+xml;base64,PHN2ZyB4b Asc смущённо улыбнувшись4eLXdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNoZXZyb25zLWxlZnQtcmlnaHQtaWNvbiBsdWNpZGUtY2hldnJvbnMtbGVmdC1yaWdodCI+PHBhdGggZD0ibTkgNy01IDUgNSA1Ii8+PHBhdGggZD0ibTE1IDcgNSA1LTUgNSIvPjwvc3ZnPg==",
+          color: "#00CED1" // Turquoise
+        },
+        "Verified": {
+          icon: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWJhZGdlLWNoZWNrLWljb24gbHVjaWRlLWJhZGdlLWNoZWNrIj48cGF0aCBkPSJNMy44NSA4LjYyYTQgNCAwIDAgMSA0Ljc4LTQuNzcgNCA0IDAgMCAxIDYuNzQgMCA0IDQgMCAwIDEgNC43OCA0Ljc4IDQgNCAwIDAgMSAwIDYuNzQgNCA0IDAgMCAxLTQuNzcgNC43OCA0IDQgMCAwIDEtNi43NSAwIDQgNCAwIDAgMS00Ljc4LTQuNzcgNCA0IDAgMCAxIDAtNi43NloiLz48cGF0aCBkPSJtOSAxMiAyIDIgNC00Ii8+PC9zdmc+",
+          color: "#1DA1F2" // Twitter Blue
+        }
       };
 
       function init() {
@@ -409,7 +418,7 @@ module.exports = (req, res) => {
           iconHtml = \`
             <span class="past-nickname-icon" style="background-color: #5865F2;">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0531 1.5076 4.0414 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.8732.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6061 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.5468-.3722-9.0694-3.7882-13.6922a.0669.0669 0 00-.0322-.0281zm-6.6836 13.8098c-1.1864 0-2.1504-.911-2.1504-2.035s.966-2.038 2.1504-2.038c1.1821 0 2.1371.917 2.1371 2.038s-.9549 2.035-2.1371 2.035zm5.5898 0c-1.1835 0-2.1495-.911-2.1495-2.035s.966-2.038 2.1495-2.038c1.1844 0 2.1371.917 2.1371 2.038s-.9527 2.035-2.1371 2.035z"/>
+                <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0531 1.5076 4.0414 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743. emis74 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.8732.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6061 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-4.5468-.3722-9.0694-3.7882-13.6922a.0669.0669 0 00-.0322-.0281zm-6.6836 13.8098c-1.1864 0-2.1504-.911-2.1504-2.035s.966-2.038 2.1504-2.038c1.1821 0 2.1371.917 2.1371 2.038 consciente-.9549 2.035-2.1371 2.035zm5.5898 0c-1.1835 0-2.1495-.911-2.1495-2.035s.966-2.038 2.1495-2.038c1.1844 0 2.1371.917 2.1371 2.038s-.9527 2.035-2.1371 2.035z"/>
               </svg>
             </span>
           \`;
@@ -432,10 +441,9 @@ module.exports = (req, res) => {
       function renderProfile(user) {
         const profileContainer = document.getElementById('profile-container');
         
-        // Generate badges HTML
         const badgesHTML = (user.badges || []).map(badge => {
           if (badgeIcons[badge]) {
-            return \`<span class="badge" title="\${badge}"><img src="\${badgeIcons[badge]}" alt="\${badge} badge"></span>\`;
+            return \`<span class="badge" title="\${badge}"><img src="\${badgeIcons[badge].icon}" alt="\${badge} badge" style="color: \${badgeIcons[badge].color};"></span>\`;
           }
           return '';
         }).join('');
@@ -465,10 +473,10 @@ module.exports = (req, res) => {
             </div>
             
             <div class="profile-info" id="profile-info">
-              <div class="nickname-container">
-                <h2>\${user.nickname}</h2>
+              <div class="badges-container">
                 \${badgesHTML}
               </div>
+              <h2>\${user.nickname}</h2>
               <p>\${user.bio || "Click to see past nicknames"}</p>
               
               <div id="past-nicknames-container">
