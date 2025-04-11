@@ -20,7 +20,7 @@
   ],
   "routes": [
     {
-      "src": "/profile",
+      "src": "/p",
       "dest": "/Pages/profile.js"
     },
     {
